@@ -47,3 +47,7 @@ function resetButtons() {
         expandedContent.remove();
     }
 }
+// Verifica se il pulsante è già espanso, in tal caso non fare nulla
+if (button.classList.contains('expanded')) {
+    return;
+}
