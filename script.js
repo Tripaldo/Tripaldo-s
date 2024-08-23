@@ -1,12 +1,23 @@
 function expandButton(button, type) {
+    // Verifica se il pulsante è già espanso, in tal caso non fare nulla
+    if (button.classList.contains('expanded')) {
+        return;
+    }
+
+    // Nascondi tutti gli altri pulsanti
     const buttons = document.querySelectorAll('.button');
     buttons.forEach(btn => {
         btn.style.display = btn === button ? 'block' : 'none';
     });
 
-    // Aggiungi la classe `expanded` e modifica il contenuto del pulsante cliccato
+    // Aggiungi la classe `expanded` al pulsante cliccato e mostra il contenuto aggiuntivo
     button.classList.add('expanded');
-    button.innerHTML = getExpandedContent(type);
+
+    // Crea un div per contenere il contenuto espanso
+    const contentDiv = document.createElement('div');
+    contentDiv.innerHTML = getExpandedContent(type);
+    contentDiv.classList.add('expanded-content'); // Aggiungiamo una classe per il CSS
+    button.parentNode.insertBefore(contentDiv, button.nextSibling);
 }
 
 function getExpandedContent(type) {
@@ -23,12 +34,16 @@ function getExpandedContent(type) {
 }
 
 function resetButtons() {
-    const buttons = document.querySelectorAll('.button');
-
     // Ripristina la visualizzazione di tutti i pulsanti
+    const buttons = document.querySelectorAll('.button');
     buttons.forEach(btn => {
         btn.style.display = 'block';
         btn.classList.remove('expanded');
-        btn.innerHTML = btn.textContent.split(' ')[0]; // Ripristina il testo originale del pulsante
     });
+
+    // Rimuovi il contenuto espanso
+    const expandedContent = document.querySelector('.expanded-content');
+    if (expandedContent) {
+        expandedContent.remove();
+    }
 }
